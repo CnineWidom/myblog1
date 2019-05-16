@@ -8,14 +8,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
-    protected $table = 'users_copy';
+    protected $table = 'users';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'user_name', 'phone_number', 'password','email'
+        'name', 'email', 'password','email'
     ];
 
     /**
@@ -26,4 +26,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function information(){
+
+        return $this->hasMany('App\Model\Information','in_userid','id');
+    }
 }
