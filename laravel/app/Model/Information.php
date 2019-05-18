@@ -25,4 +25,9 @@ class Information extends Model
     {
     	return $this->hasMany('App\Model\Myreadrecode','re_informationId','in_id');
     }
+
+    public function getcomment()
+    {
+        return $this->hasMany('App\Model\MyComment','com_inforId','in_id');
+    }
 }

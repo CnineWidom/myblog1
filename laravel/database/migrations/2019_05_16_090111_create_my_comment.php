@@ -20,7 +20,8 @@ class CreateMyComment extends Migration
             $table->text('com_content')->nullable()->comment('评论内容');
             $table->integer('com_parentId')->default(0)->comment('父级id');
             $table->tinyInteger('com_flag')->default(1)->comment('是否显示');
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
         });
     }
 
