@@ -75,42 +75,62 @@ class HomeController extends Controller
                 $value->key = $keyArr;
                 $value->readnum = 10;
             }  
+
             $readMess = Myreadrecode::where(['re_informationId'=>$id,'re_ip'=>$ip])->whereBetween('re_time',[$time-600,$time])->orderBy('re_time','desc')->limit(1)->get();
+
             if($readMess->isEmpty()){
                 $readData = [
                     're_informationId'=>$id,
                     're_ip' => $ip,
                     're_time' => $time,
                 ];
-                Myreadrecode::insert($readData);
+
+                Myreadrecode::insert($readData);                
             }
-            $resss = $this->getCommentList($id,0,$result);
-            echo json_encode($resss);
+
             $res->messDetail = $this->returnMsg(1,$messDetail,'messDetail');
             $res->messList = $this->returnMsg(1,$messList,'messList');
-        }else $res->messDetail = $this->returnMsg(-1,'没有数据');
-        // echo json_encode($res);
+            $commentMess = $this->getComment($id);
+            if($commentMess->isEmpty()){
+                $res->commentMess = $this->returnMsg(-1,'没有数据');
+            }
+            else $res->commentMess = $this->returnMsg(1,$commentMess,'commentMess');
+        }else{
+            $res->messDetail = $this->returnMsg(-1,'没有数据');
+        }
+        echo json_encode($res);
     }
 
     //获取评论
-    public function getCommentList($id,$parentId=0,&$result=array())
+    public function getCommentList($id,$parentId=0,&$result=array(),$count=1)
     {
-        $commentList = Information::find($id)->getcomment()->where('com_parentId',$parentId)->orderBy('created_at','desc')->get();
-        if(!$commentList->isEmpty()){
-            foreach ($commentList as $key => &$value) {
-                $value->userMess = Information::find($id)->usersBy()->first();
-                $parentId = $value->com_id;
-                $thisArr = &$result[];
-                $value->children =  $this->getCommentList($id,$parentId,$thisArr);
-                $thisArr= $value;
+        if($count<4){
+            $backMessFlag = 1;
+            $commentList = Information::find($id)->getcomment()->where('com_parentId',$parentId)->orderBy('created_at','desc')->get();
+            if(!$commentList->isEmpty()){
+                foreach ($commentList as $key => &$value) {
+                    $value->userMess = Information::find($id)->usersBy()->first();
+                    $value->count = $count;
+                    $value->backMessFlag = $backMessFlag;
+                    $parentId = $value->com_id;
+                    $thisArr = &$result[];
+                    $value->children =  $this->getCommentList($id,$parentId,$thisArr,$count+1);
+                    unset($commentList[$key]);
+                    $thisArr= $value;
+                }
+                unset($value);
             }
-            unset($value);
-        }
-        else{
-            return array();
-        }
+            else{
+                return array();
+            }
+        }else return array();
         return $result;
-        // echo json_encode($commentList);
+    }
+
+    public function getComment($id)
+    {
+        $commentList = Information::find($id)->getcomment()->where(['com_inforId'=>$id,'com_flag'=>1])->orderBy('created_at','desc')->limit(10)->get();
+        return $commentList;
     }
 
     public function returnMsg($code,$msg="",$name="name")

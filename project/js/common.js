@@ -43,6 +43,6 @@ $(function(){
 	$(".newRelease").load("layout/newrelease.html", function(response){
 
 	});
-	$(".review").load("plugin/review/index.html")
+	$(".review").load("plugin/review/index.html?123")
 });
 

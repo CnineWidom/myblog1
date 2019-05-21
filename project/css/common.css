@@ -11,6 +11,11 @@ a,a:hover{
 	text-decoration: none;
 	color: #333;
 }
+.no_message {
+	text-align: center;
+	font-size: 17px;
+	color: #838080;
+}
 /********************头部开始*********************/
 .w_header{
 	height: 55px;

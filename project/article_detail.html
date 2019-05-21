@@ -6,7 +6,7 @@
 </head>
 
 <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="css/common.css"/>
+<link rel="stylesheet" type="text/css" href="css/common.css?12"/>
 <link rel="stylesheet" type="text/css" href="css/article_detail.css"/>
 <link href="logo.ico" rel="shortcut icon"/>
 <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
@@ -88,16 +88,18 @@
 </html>
 <script src="plugin/jquery.min.js"></script>
 <script src="plugin/bootstrap/js/bootstrap.min.js"></script>
-<script src="js/common.js?467"></script>
+<script src="js/common.js?4671"></script>
 <script>
 	var id = getUrlParam('id');
+	console.log(id)
 	data ={
 		id : id,
 	};
 	ajax('articlDetail',data,function(res){
 		console.log(res)
 		messDetail = res.messDetail
-
+		commentMess = res.commentMess
+		messList = res.messList
 		if(messDetail.code === 1){
 			$('.firstTitle').html('')
 			$('.c_titile').html('')
@@ -134,6 +136,14 @@
 			}
 		})
 
-		
+		// comment
+		if(commentMess.code ===1){
+
+		}else if(commentMess.code < 0){
+			console.log(456464654)
+			$('#comment_show').html("")
+			$('#comment_show').append("<p class='no_message'>"+commentMess.name+"</p>")
+		}
+		// $.each(res.commentMess)
 	});
 </script>

@@ -345,7 +345,7 @@ $(function(){
 		}
 		
 		if(res.messList.code ===1){
-		//最新发布
+			//最新发布
 			$.each(res.messList.messList,function(k,v){
 				var keyStr = " "
 				$.each(v.key,function(key,val){
@@ -371,6 +371,7 @@ $(function(){
 						"<li><a href='#'>"+v.in_title+"</a></li>"
 					)
 				}
+
 			})
 		}
 	})
