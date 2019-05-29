@@ -1,18 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>个人博客</title>
-	<link href="plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="css/common.css?123" />
-	<link href="logo.ico" rel="shortcut icon" />
-	
-</head>
-<body>
-	<div class="w_header">
-	</div>
+<html>
 
-	<div class="w_container">
+	<head>
+		<meta charset="UTF-8">
+		<title>个人博客</title>
+	</head>
+
+	<link href="plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/common.css" />
+	<link href="logo.ico" rel="shortcut icon" />
+	<script src="plugin/jquery.min.js"></script>
+	<script src="plugin/bootstrap/js/bootstrap.min.js"></script>
+	<!--<script type="text/javascript" src="plugin/jquery.page.js"></script>-->
+	<script src="js/common.js"></script>
+	<!--<script src="js/snowy.js"></script>-->
+
+	<body>
+		<div class="w_header">
+			<div class="container">
+				<div class="w_header_top">
+					<a href="#" class="w_logo"></a>
+					<span class="w_header_nav">
+					<ul>
+						<li><a href="" class="active">首页</a></li>
+						<li><a href="about.html">关于</a></li>
+						<li><a href="article.html">成长</a></li>
+						<li><a href="">学习</a></li>
+						<li><a href="">娱乐</a></li>
+						<li><a href="moodList.html">说说</a></li>
+						<li><a href="comment.html">留言</a></li>
+					</ul>
+				</span>
+					<div class="w_search">
+						<div class="w_searchbox">
+							<input type="text" placeholder="search" />
+							<button>搜索</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="w_container">
 			<div class="container">
 				<div class="row w_main_row">
 					<div class="col-lg-9 col-md-9 w_main_left">
@@ -64,7 +92,7 @@
 
 						</div>
 
-						<div class="panel panel-default contenttop" id ="contenttop">
+						<div class="panel panel-default contenttop">
 							<a href="article_detail.html">
 								<strong>博主置顶</strong>
 								<h3 class="title">嫁人就嫁程序员</h3>
@@ -80,7 +108,7 @@
 							<div class="panel-body">
 
 								<!--文章列表开始-->
-								<div class="contentList" id="contentList">
+								<div class="contentList">
 
 									<div class="panel panel-default">
 										<div class="panel-body">
@@ -204,7 +232,7 @@
 					<!--左侧开始-->
 					<div class="col-lg-3 col-md-3 w_main_right">
 
-						<div class="panel panel-default sitetip" id="announcement">
+						<div class="panel panel-default sitetip">
 							<a href="article_detail.html">
 								<strong>站点公告</strong>
 								<h3 class="title">嫁人就嫁程序员</h3>
@@ -235,12 +263,12 @@
 							</div>
 						</div>
 
-						<div class="panel panel-default newRelease">
-							<!-- <div class="panel-heading">
+						<div class="panel panel-default">
+							<div class="panel-heading">
 								<h3 class="panel-title">最新发布</h3>
 							</div>
-							<div class="panel-body" >
-								<ul class="list-unstyled sidebar" id="newRelease">
+							<div class="panel-body">
+								<ul class="list-unstyled sidebar">
 									<li>
 										<a href="/post/04928311">排序算法之冒泡排序 － java实现</a>
 									</li>
@@ -272,7 +300,7 @@
 										<a href="/post/37454977">使用 jQuery 的 prop() 方法来获取以及设置元素的特性（property）</a>
 									</li>
 								</ul>
-							</div> -->
+							</div>
 						</div>
 
 						<div class="panel panel-default">
@@ -314,67 +342,34 @@
 					</div>
 				</div>
 			</div>
-	</div>
+		</div>
+		<div class="w_foot">
+			<div class="w_foot_copyright">Copyright &copy; 2017-2020, www.wfyvv.com. All Rights Reserved. <span>|</span>
+				<a target="_blank" href="http://www.miitbeian.gov.cn/" rel="nofollow">皖ICP备17002922号</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var $backToTopEle = $('<a href="javascript:void(0)" class="Hui-iconfont toTop" title="返回顶部" alt="返回顶部" style="display:none">^</a>').appendTo($("body")).click(function() {
+			$("html, body").animate({ scrollTop: 0 }, 120);
+		});
+		var backToTopFun = function() {
+			var st = $(document).scrollTop(),
+				winh = $(window).height();
+			(st > 0) ? $backToTopEle.show(): $backToTopEle.hide();
+			/*IE6下的定位*/
+			if(!window.XMLHttpRequest) {
+				$backToTopEle.css("top", st + winh - 166);
+			}
+		};
 
-	<div class="w_foot">
-	</div>
-</body>
+		$(function() {
+			$(window).on("scroll", backToTopFun);
+			backToTopFun();
+		});
+	</script>
+	
 </html>
-<script src="plugin/jquery.min.js"></script>
-<script src="plugin/bootstrap/js/bootstrap.min.js"></script>
-<script src="js/common.js?1223"></script>
 <script>
-$(function(){
-	data = {};
-	ajax('index',data,function(res){
-		res = res.data
-		console.log(res)
-		$('#contentList').html('')
-		$('#newRelease').html('')
-		$('#announcement').html('')
-
-		//公告
-		if(res.announce.code == 1){
-			$('#announcement').append(
-				"<a href='#' ><strong>站点公告</strong><h3 class='title'>"+res.announce.announce.ment_title+"</h3><p class='overView'>"+res.announce.announce.ment_content+"</p></a>"
-			)
-		}else{
-			$('#announcement').append(
-				"<a href='#' ><strong>站点公告</strong><h3 class='title'></h3><p class='overView'>"+res.announce.name+"</p></a>"
-			)
-		}
-		
-		if(res.messList.code ===1){
-			//最新发布
-			$.each(res.messList.messList,function(k,v){
-				var keyStr = " "
-				$.each(v.key,function(key,val){
-					keyStr += "<a class='label label-default'>"+val+"</a>"
-				})
-				console.log(keyStr)
-				$('#contentList').append(
-					"<div class='panel panel-default'><div class='panel-body'><h4><a class='title' href='article_detail.html?id="+v.in_id+"'>"+v.in_title+"</a></h4><p>"+keyStr+"</p><p class='overView'>"+v.in_content+"</p><p><span class='count'><i class='glyphicon glyphicon-user'></i><a href='#'>"+v.userMess[0].name+"</a></span> <span class='count'><i class='glyphicon glyphicon-eye-open'></i>阅读:"+v.readNum+"</span><span class='count'><i class='glyphicon glyphicon-comment'></i>评论:18</span><span class='count'><i class='glyphicon glyphicon-time'></i>"+v.in_time+"</span></p></div></div>"
-				)
-
-				//博主置顶
-				if(v.in_top ===1){
-					$('#contenttop').html('')
-					$('#contenttop').append(
-						"<a href='article_detail.html'><strong>博主置顶</strong><h3 class='title'>"+v.in_title+"</h3><p class='overView'>"+v.in_content+"</p></a>"
-					)
-				}		
-
-				//最新发布右边
-				console.log(k)
-				if(k<10){
-					$('#newRelease').append(
-						"<li><a href='#'>"+v.in_title+"</a></li>"
-					)
-				}
-
-			})
-		}
-	})
-})
 
 </script>

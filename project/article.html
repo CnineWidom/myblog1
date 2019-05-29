@@ -13,7 +13,7 @@
 <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="plugin/jquery.page.js"></script>
-<script src="js/common.js"></script>
+<script src="js/common.js?1"></script>
 <!--<script src="js/snowy.js"></script>-->
 <script type="text/javascript">
 	
@@ -31,28 +31,6 @@ $(function(){
 
 <body>
 	<div class="w_header">
-		<div class="container">
-			<div class="w_header_top">
-				<a href="#" class="w_logo"></a>
-				<span class="w_header_nav">
-					<ul>
-						<li><a href="index.html">首页</a></li>
-						<li><a href="about.html" >关于</a></li>
-						<li><a href=""  class="active">成长</a></li>
-						<li><a href="">学习</a></li>
-						<li><a href="">娱乐</a></li>
-						<li><a href="moodList.html">说说</a></li>
-						<li><a href="comment.html">留言</a></li>
-					</ul>
-				</span>
-				<div class="w_search">
-					<div class="w_searchbox">
-						<input type="text" placeholder="search" />
-						<button>搜索</button>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	<div class="w_container">
 		<div class="container">
@@ -257,8 +235,7 @@ $(function(){
 		</div>
 	</div>
 	<div class="w_foot">
-		<!--<div class="w_foot_copyright">© 2015~2016 版权所有 | <a target="_blank" href="http://www.miitbeian.gov.cn/" rel="nofollow">京ICP备15010892号-1</a></div>-->
-		<div class="w_foot_copyright">Copyright © 2017-2020, www.wfyvv.com. All Rights Reserved. </div>
+		
 	</div>
 	<!--toTop-->
 	<div id="shape">
@@ -271,3 +248,9 @@ $(function(){
 	<!--<div class="snow-container"></div>-->
 </body>
 </html>
+<script>
+	data = {
+		'type' : 1,
+	}
+	ajax('getGroup',data,function(res){})
+</script>

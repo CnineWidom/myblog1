@@ -34,7 +34,7 @@ $(function(){
 	$(window).on("scroll",backToTopFun);
 	backToTopFun();
 
-	$(".w_header").load("layout/head.html", function(response){ 
+	$(".w_header").load("layout/head.html?1", function(response){ 
 		
 	});
 	$(".w_foot").load("layout/footer.html", function(response){ 
@@ -43,6 +43,6 @@ $(function(){
 	$(".newRelease").load("layout/newrelease.html", function(response){
 
 	});
-	$(".review").load("plugin/review/index.html?123")
+	$(".review").load("plugin/review/index.html")
 });
 
