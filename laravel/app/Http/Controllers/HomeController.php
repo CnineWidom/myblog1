@@ -193,7 +193,6 @@ class HomeController extends Controller
 
                 $userMess = Information::find($value->in_userid)->usersBy()->get();
                 if($userMess) $value->userMess = $userMess;
-                
                 $value->in_time = date('Y-m-d',$value->in_time);
                 $value->readNum = 10;
             }
