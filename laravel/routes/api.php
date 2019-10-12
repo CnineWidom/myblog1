@@ -21,6 +21,8 @@ Route::middleware('allowNet')->prefix('v1')->group(function(){
 	Route::get('/index','HomeController@index');
 	
 	Route::post('/articlDetail','HomeController@articlDetail');
+	Route::post('/getList','HomeController@getOtherList');
+	Route::post('/getGroup','HomeController@getGroupUp');
 
 });
 

@@ -6,7 +6,7 @@
 </head>
 
 <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="css/common.css"/>
+<link rel="stylesheet" type="text/css" href="css/common.css?12"/>
 <link rel="stylesheet" type="text/css" href="css/article_detail.css"/>
 <link href="logo.ico" rel="shortcut icon"/>
 <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
@@ -19,7 +19,7 @@
 		<div class="container">
 			<div class="row w_main_row">
 				<ol class="breadcrumb w_breadcrumb">
-				  <li><a href="index1.html">首页</a></li>
+				  <li><a href="index.html">首页</a></li>
 				  <li><a href="#">文章</a></li>
 				  <li class="active firstTitle"></li>
 				  <span class="w_navbar_tip">我们长路漫漫，只因学无止境。</span>
@@ -37,8 +37,8 @@
 						    </div>
 							
 							<div class="nextinfo">
-								<p class="last">上一篇：<a href="#">免费收录网站搜索引擎登录口大全</a></p>
-								<p class="next">下一篇：<a href="#">javascript显示年月日时间代码</a></p>
+<!-- 								<p class="last">上一篇：<a href="#">免费收录网站搜索引擎登录口大全</a></p>
+								<p class="next">下一篇：<a href="#">javascript显示年月日时间代码</a></p> -->
 						    </div>
 							
 						</div>
@@ -88,22 +88,28 @@
 </html>
 <script src="plugin/jquery.min.js"></script>
 <script src="plugin/bootstrap/js/bootstrap.min.js"></script>
-<script src="js/common.js?467"></script>
+<script src="js/common.js?467999"></script>
 <script>
 	var id = getUrlParam('id');
+	console.log(id)
 	data ={
 		id : id,
 	};
 	ajax('articlDetail',data,function(res){
 		console.log(res)
 		messDetail = res.messDetail
-
+		commentMess = res.commentMess
+		messList = res.messList
 		if(messDetail.code === 1){
+			keyStr = ""
+			nextStr = ''
+
 			$('.firstTitle').html('')
 			$('.c_titile').html('')
 			$('.box_c').html('')
 			$('.infos').html('')
 			$('.keybq').html('')
+			$('.nextinfo').html('')
 
 			$('.firstTitle').text(messDetail.messDetail[0].in_title)
 			$('.c_titile').text(messDetail.messDetail[0].in_title)
@@ -112,21 +118,32 @@
 				"<span class='d_time'>发布时间："+messDetail.messDetail[0].in_time+"</span><span>编辑：<a href='#''>"+messDetail.messDetail[0].name+"</a></span><span>阅读（"+messDetail.messDetail[0].readnum+"）</span>"
 			)
 			$('.infos').text(messDetail.messDetail[0].in_content)
-			keyStr = ""
 			$.each(messDetail.messDetail[0].key,function(k,v){
 				keyStr +=  "<a class='label label-default'>"+v+"</a>"
 			})
 			$('.keybq').append(keyStr)
+
+			if(messDetail.messDetail[0].hasOwnProperty('beforeInfo')){
+				nextStr += "<p class='last'>上一篇：<a href='article_detail.html?id="+messDetail.messDetail[0].beforeInfo.id+"'>"+messDetail.messDetail[0].beforeInfo.title+"</a></p>"
+			}else{
+				nextStr += "<p class='last'>上一篇：<a href='#'>无</a></p>"
+			}
+			if(messDetail.messDetail[0].hasOwnProperty('nextinfo')){
+				nextStr += "<p class='next'>下一篇：<a href='article_detail.html?id="+messDetail.messDetail[0].nextinfo.id+"'>"+messDetail.messDetail[0].nextinfo.title+"</a></p>"
+			}else{
+				nextStr += "<p class='next'>下一篇：<a href='#'>无</a></p>"
+			}
+			$('.nextinfo').append(nextStr)
+
 		}
 		else if(messDetail.code < 0){
 			alert(messDetail.name)
-			window.location.href='index1.html'
+			window.location.href='index.html'
 		}
 		$('#newRelease').html('')
 		
 		$.each(res.messList.messList,function(k,v){
 			//最新发布右边
-			console.log(k)
 			if(k<10){
 				$('#newRelease').append(
 					"<li><a href='#'>"+v.in_title+"</a></li>"
@@ -134,6 +151,17 @@
 			}
 		})
 
-		
+		// comment
+		if(commentMess.code ===1){
+			$('#comment').html(" ")
+			$.each(commentMess.commentMess,function(k,v){
+				$('#comment').append("<div class='comment-show-con-list pull-left clearfix'><div class='pl-text clearfix'><a href='#' class='comment-size-name'>"+v.userName+" : </a><span class='my-pl-con'>&nbsp;"+v.com_content+"</span></div><div class='date-dz'><span class='date-dz-left pull-left comment-time'>"+v.created_at+"</span><div class='date-dz-right pull-right comment-pl-block'><a href='javascript:;' class='date-dz-z pull-left'><i class='date-dz-z-click-red'></i>赞 (<i class='z-num'>666</i>)</a></div></div><div class='hf-list-con'></div></div>")
+			})
+			
+		}else if(commentMess.code < 0){
+			$('#comment_show').html("")
+			$('#comment_show').append("<p class='no_message'>"+commentMess.name+"</p>")
+		}
+		// $.each(res.commentMess)
 	});
 </script>

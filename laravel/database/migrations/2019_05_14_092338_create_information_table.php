@@ -15,7 +15,8 @@ class CreateInformationTable extends Migration
     {
         Schema::create('my_information', function (Blueprint $table) {
             $table->increments('in_id')->comment('id');
-            $table->tinyInteger('in_userid')->comment('用户id')->nullable();
+            $table->string('in_userid')->comment('用户id')->nullable();
+            $table->tinyInteger('in_type')->default(1)->comment('类型');
             $table->string('in_key',100)->comment('key')->default('');
             $table->string('in_title',100)->comment('公告标题');
             $table->text('in_content')->comment('公告内容')->nullable();

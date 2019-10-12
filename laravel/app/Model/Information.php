@@ -8,7 +8,7 @@ class Information extends Model
 {
     protected $table = 'my_information';
 
-    protected $fillable = ['in_title','in_content','in_flag','in_top','in_time'];
+    protected $fillable = ['in_title','in_content','in_type','in_flag','in_top','in_time'];
 
     protected $primaryKey = 'in_id';
 
