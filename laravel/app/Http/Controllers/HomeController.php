@@ -40,8 +40,7 @@ class HomeController extends Controller
                 $value->key = $keyArr;
 
                 $userMess = Information::find($value->in_userid)->usersBy()->get();
-                if($userMess) $value->userMess = $userMess;
-                
+                if(!$userMess->isEmpty()) $value->userMess = $userMess;
                 $value->in_time = date('Y-m-d',$value->in_time);
                 $value->readNum = 10;
             }
@@ -74,7 +73,7 @@ class HomeController extends Controller
                 $keyArr = explode(',', $value->in_key);
                 $value->key = $keyArr;
                 $value->readnum = 10;
-            }  
+            }
             $readMess = Myreadrecode::where(['re_informationId'=>$id,'re_ip'=>$ip])->whereBetween('re_time',[$time-600,$time])->orderBy('re_time','desc')->limit(1)->get();
             if($readMess->isEmpty()){
                 $readData = [
@@ -93,22 +92,25 @@ class HomeController extends Controller
     }
 
     //获取评论
-    public function getCommentList($id,$parentId=0,&$result=array())
+    public function getCommentList($id,$parentId=0,&$result=array(),$count=1)
     {
-        $commentList = Information::find($id)->getcomment()->where('com_parentId',$parentId)->orderBy('created_at','desc')->get();
-        if(!$commentList->isEmpty()){
-            foreach ($commentList as $key => &$value) {
-                $value->userMess = Information::find($id)->usersBy()->first();
-                $parentId = $value->com_id;
-                $thisArr = &$result[];
-                $value->children =  $this->getCommentList($id,$parentId,$thisArr);
-                $thisArr= $value;
+        if($count<4){
+            $commentList = Information::find($id)->getcomment()->where('com_parentId',$parentId)->orderBy('created_at','desc')->get();
+            if(!$commentList->isEmpty()){
+                foreach ($commentList as $key => &$value) {
+                    $value->userMess = Information::find($id)->usersBy()->first();
+                    $value->count =$count;
+                    $parentId = $value->com_id;
+                    $thisArr = &$result[];
+                    $value->children =  $this->getCommentList($id,$parentId,$thisArr,$count+1);
+                    $thisArr= $value;
+                }
+                unset($value);
             }
-            unset($value);
-        }
-        else{
-            return array();
-        }
+            else{
+                return array();
+            }
+        }else return array();
         return $result;
         // echo json_encode($commentList);
     }
